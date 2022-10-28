@@ -11,7 +11,7 @@ export class Card {
         + "cost: " + this.cost + "\n";
         return output;
     }
-}
+} 
 
 
 export class Unit extends Card{
