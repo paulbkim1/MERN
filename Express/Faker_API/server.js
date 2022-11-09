@@ -1,27 +1,40 @@
-import { faker } from '@faker-js/faker';
+const {faker} = require('@faker-js/faker')
 
 const express = require("express");
 const app = express();
 const port = 8000;
 
-const user = [
-    { password: faker.internet.password(), email: faker.internet.email(), phoneNumber: faker.phone.phoneNumber(), lastName: faker.name.firstName(), firstName: faker.name.lastName, _id: faker._id._id()}
-]
+class User {
+    constructor () {
+        this.password = faker.internet.password();
+        this.email = faker.internet.email();
+        this.phoneNumber = faker.phone.phoneNumber();
+        this.lastName = faker.name.lastName();
+        this.firstName = faker.name.firstName();
+        this._id = faker.datatype.uuid();
+    }
+}
 
-const company = [
-    { _id: faker.company._id(), name: faker.company.name(), address: {street: faker.company.street(), city: faker.company.city(), state: faker.company.state(), zipCode: faker.company.state(), country: faker.company.country()}}
-]
+class Company {
+    constructor () {
+        this._id = faker.datatype.uuid();
+        this.name = faker.company.name();
+        this.address = {street: faker.address.streetAddress(), city: faker.address.cityName(), state: faker.address.state(), zipCode: faker.address.zipCode(), country: faker.address.country()}
+    }
+}
+
+
 
 app.get('/api/users/new', (req,res) => {
-    res.json (user);
+    res.json ( new User());
 });
 
 app.get('/api/companies/new', (req,res) => {
-    res.json (company);
+    res.json (new Company());
 });
 
 app.get('/api/user/company', (req,res) => {
-    res.json (user, company);
+    res.json ({user: new User(), company:new Company()});
 });
 
 app.listen(port, () => {
